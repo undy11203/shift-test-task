@@ -2,6 +2,7 @@ package com.shift.test_task.repository;
 
 import com.shift.test_task.utils.DbUtils;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -12,11 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class IntervalRepository extends DbUtils {
+public class IntervalRepository {
+    private final DbUtils dbUtils;
+    private Connection connection;
+
+    @Autowired
+    public IntervalRepository(DbUtils dbUtils) {
+        this.dbUtils = dbUtils;
+        this.connection = dbUtils.getConnection();
+    }
 
     @PostConstruct
     private void CreateTable() {
-        try(Connection connection = getConnection()) {
+        try {
             Statement statement = connection.createStatement();
 
             String sql = "SELECT count(*)\n" +
@@ -38,21 +47,21 @@ public class IntervalRepository extends DbUtils {
         }
     }
 
-    public void AddIntegerIntervalInDb(Connection connection, List<Integer> interval) throws SQLException {
+    public void AddIntegerIntervalInDb(List<Integer> interval) throws SQLException {
         Statement statement = connection.createStatement();
         String sql =  "INSERT INTO Intervals (start_value, end_value)\n" +
                 "VALUES (" + interval.get(0) + ", " + interval.get(1) +");";
         statement.execute(sql);
     }
 
-    public void AddCharacterIntervalInDb(Connection connection, List<Character> interval) throws SQLException {
+    public void AddCharacterIntervalInDb(List<Character> interval) throws SQLException {
         Statement statement = connection.createStatement();
         String sql = "INSERT INTO Intervals (start_value, end_value)\n" +
                 "VALUES (" + "'" + interval.get(0) + "'" + ", " + "'" +interval.get(1) + "'" +");";
         statement.execute(sql);
     }
 
-    public List<Integer> GetIntegerIntervalFromDb(Connection connection) throws SQLException {
+    public List<Integer> GetIntegerIntervalFromDb() throws SQLException {
         Statement statement = connection.createStatement();
         String sql = "SELECT *\n" +
                 "FROM intervals\n" +
@@ -72,7 +81,7 @@ public class IntervalRepository extends DbUtils {
         return minInterval;
     }
 
-    public List<Character> GetCharacterIntervalFromDb(Connection connection) throws SQLException {
+    public List<Character> GetCharacterIntervalFromDb() throws SQLException {
         Statement statement = connection.createStatement();
         String sql = "SELECT *\n" +
                 "FROM intervals\n" +

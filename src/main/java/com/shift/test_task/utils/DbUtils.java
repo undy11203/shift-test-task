@@ -1,9 +1,14 @@
 package com.shift.test_task.utils;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 
+@Component
 public class DbUtils {
 
     @Value("${spring.datasource.url}")
@@ -15,8 +20,10 @@ public class DbUtils {
     @Value("${spring.datasource.driverClassName}")
     private String DB_DRIVER;
 
-    public Connection getConnection() {
-        Connection connection = null;
+    private Connection connection = null;
+
+    @PostConstruct
+    private void InitConnect() {
         try {
             Class.forName(DB_DRIVER);
             connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
@@ -25,6 +32,9 @@ public class DbUtils {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Connection getConnection() {
         return connection;
     }
 }

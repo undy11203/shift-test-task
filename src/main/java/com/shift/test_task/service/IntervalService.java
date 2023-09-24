@@ -66,9 +66,9 @@ public class IntervalService {
     }
 
     public void AddIntegerIntervals(List<List<Integer>> intervals){
-        try (Connection connection = intervalRepository.getConnection()){
+        try {
             for (List<Integer> interval : intervals) {
-                intervalRepository.AddIntegerIntervalInDb(connection, interval);
+                intervalRepository.AddIntegerIntervalInDb(interval);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -76,9 +76,9 @@ public class IntervalService {
     }
 
     public void AddCharacterIntervals(List<List<Character>> intervals){
-        try (Connection connection = intervalRepository.getConnection()){
+        try {
             for (List<Character> interval : intervals) {
-                intervalRepository.AddCharacterIntervalInDb(connection, interval);
+                intervalRepository.AddCharacterIntervalInDb(interval);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -86,16 +86,16 @@ public class IntervalService {
     }
 
     public List<Integer> GetIntervalsOfDigits(){
-        try (Connection connection = intervalRepository.getConnection()){
-            return intervalRepository.GetIntegerIntervalFromDb(connection);
+        try {
+            return intervalRepository.GetIntegerIntervalFromDb();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     public List<Character> GetIntervalsOfLetters(){
-        try (Connection connection = intervalRepository.getConnection()){
-            return intervalRepository.GetCharacterIntervalFromDb(connection);
+        try {
+            return intervalRepository.GetCharacterIntervalFromDb();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
