@@ -9,11 +9,12 @@ POST /api/v1/intervals/merge?kind=letters - для букв \
  ```start``` и элемент ```end``` минимальные из всех по пути GET: \
  GET /api/v1/intervals/min?kind=digits - для чисел \
  GET /api/v1/intervals/min?kind=letters - для букв 
-### Конфигурация
-В папке ~/src/main/java/resources
+### Конфигурация и настройки
+1. в папке build.gradle изменить sourceCompatibility на текущий.
+2. В папке ~/src/main/java/resources
 есть файл application.properties
 Там можно менять пароль, логин, url базы данных h2. \
-Так же там прописан url для графического просмотра бд. 
+Так же там прописан url для графического просмотра бд. Но то что стоит по дефолту достаточно 
 ### Инструкция по сборке
 1. Убедиться что на пк есть Java версии 17 или выше
 2. Вызвать консоль в данной папке
